@@ -2,7 +2,10 @@ package Sub::Function::Introspection;
 use strict;
 use warnings;
 
+use Data::Dumper qw(Dumper);
 use Exporter qw(import);
+
+our $VERSION = '0.01';
 
 our @EXPORT_OK = qw(get_signature);
 
@@ -16,9 +19,12 @@ sub get_signature {
     #print $source;
 
     my @source = split /\n/, $source;
-    #if ($source[2] =~ /use feature 'signatures'/ &&
-    #        $source[3] =~ /Too many arguments/ &&
-    #        $source[4] =~ /Too few arguments/) {
+    #print Dumper \@source;
+    #print "LOG: $source[3]\n";
+    #return if $source[3] !~ /use feature/;
+    #return if $source[3] !~ /signatures/;
+    return if $source[4] !~ /Too many arguments/;
+    #return $source[4] =~ /Too few arguments/) {
     my @signature = ();
     for my $row (@source) {
         my ($sig) = $row =~ /my (\W\w+) = /;
@@ -30,4 +36,29 @@ sub get_signature {
 }
 
 1;
+
+=head1 NAME
+
+Sub::Function::Introspection - get the subroutine signature
+
+=head1 SYNOPSIS
+
+   use strict;
+   use warnings;
+   use Sub::Function::Introspection qw(get_signature)
+
+   # somewhere there is a subroutione defined with signature
+   use feature 'signatures';
+   no warnings 'experimental::signatures';
+   sub function($name, %address) { }
+
+   my @sigs = get_signature(\&function); # ('$name', '%address')
+
+=head1 LICENCE
+
+Copyright 2021 Gabor Szabo, All Rights Reserved.
+
+This program is free software; you can redistribute it and/or modify it under the same terms as Perl 5.20.0.
+
+=cut
 
