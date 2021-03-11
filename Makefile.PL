@@ -12,6 +12,7 @@ my %WriteMakefileArgs = (
     ABSTRACT_FROM       => 'lib/Sub/Function/Introspection.pm',
     AUTHOR              => 'Gabor Szabo <gabor@szabgab.com>',
     LICENSE             => 'perl_5',
+    MIN_PERL_VERSION    => 5.020,
 
     META_MERGE => {
         'meta-spec' => { version => 2 },
